@@ -6,12 +6,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class HelpFile {
 	
@@ -169,18 +171,26 @@ public class HelpFile {
         List<String> availableCommands = new ArrayList<String>();
         String outPut = null;
         Integer lineLength = 63; 
+        Player player;
+        
         for (Entry<String, String> entry : helpIndex.entrySet() ) {
         	boolean hasAccess = false;
-        	//check if player's group is in groups listed for that entry
-//        	for( Iterator<String> g = helpIndexAccess.get(entry.getKey().toLowerCase()).iterator(); g.hasNext();) {
-//        		String nextGroup = g.next();
-//TODO fix player access with permissions 
-//        		if (player.isInGroup(nextGroup.trim())) {
-//        			hasAccess = true;
-//        		}
-//        	}
-hasAccess = true;       	
- 
+			if( HelpPages.checkGroups ) {
+				if( sender instanceof Player ) {
+					player = (Player)sender;
+					Iterator<String> g = helpIndexAccess.get(entry.getKey().toLowerCase()).iterator();
+					while(  g.hasNext() ) { 
+						String nextGroup = g.next(); 
+						if (HelpPages.gmPermissionCheck.inGroup(player.getName(), nextGroup)) { 
+							hasAccess = true; 
+						} 
+					}
+				} else {
+					hasAccess = true;
+				}
+			} else {
+				hasAccess = true;
+			}
         	if (hasAccess || entry.getKey().startsWith(";")) {
         		if (entry.getKey().startsWith(";")) {
             		availableCommands.add(entry.getKey().substring(1) + " " + entry.getValue());

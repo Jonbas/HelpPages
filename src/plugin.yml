@@ -1,6 +1,6 @@
 name: HelpPages
 main: net.centerleft.helppages.HelpPages
-version: 1.0
+version: 1.1
 author: Jonbas
 description: >
              A fully customizable help system.
