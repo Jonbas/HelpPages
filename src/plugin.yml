@@ -1,0 +1,15 @@
+name: HelpPages
+main: net.centerleft.helppages.HelpPages
+version: 1.0
+author: Jonbas
+description: >
+             A fully customizable help system.
+             Allows creation of index and sub help pages.
+commands:
+  help:
+    description: Displays custom help pages.
+    usage: |
+           /<command> [page] [page #]
+           /<command> - displays index of help pages
+           /<command> Server - displays first page of Server help
+           /<command> Server 3 - displays 3rd page of Server help
