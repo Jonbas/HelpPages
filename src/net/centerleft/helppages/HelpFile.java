@@ -181,7 +181,7 @@ public class HelpFile {
 					Iterator<String> g = helpIndexAccess.get(entry.getKey().toLowerCase()).iterator();
 					while(  g.hasNext() ) { 
 						String nextGroup = g.next(); 
-						if (HelpPages.gmPermissionCheck.inGroup(player.getName(), nextGroup)) { 
+						if (HelpPages.gmPermissionCheck.inGroup(player.getWorld().getName(), player.getName(), nextGroup)) { 
 							hasAccess = true; 
 						} 
 					}
@@ -200,7 +200,9 @@ public class HelpFile {
             }
        }
 
-        sender.sendMessage(ChatColor.DARK_AQUA + "Available help categories (Page " + (split.length == 2 ? split[1] : "1") + " of " + (int) Math.ceil((double) availableCommands.size() / (double) 7) + "):");
+        sender.sendMessage(ChatColor.DARK_AQUA + "Available help categories (Page " 
+        		+ (split.length == 2 ? split[1] : "1") + " of " 
+        		+ (int) Math.ceil((double) availableCommands.size() / (double) 7) + "):");
         sender.sendMessage(ChatColor.DARK_AQUA + "Usage: /help [category] <page> - [] required <> optional");
         if (split.length == 2) {
             try {

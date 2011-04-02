@@ -9,32 +9,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.anjocaido.groupmanager.GroupManager;
-import org.anjocaido.groupmanager.dataholder.DataHolder;
 import com.nijiko.permissions.PermissionHandler;
+import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class HelpPages extends JavaPlugin {
 	final static boolean debug = false;
-	static GroupManager groupManager;
+	static Permissions groupManager;
 	static PermissionHandler gmPermissionCheck; 
 	static boolean checkGroups = false;
 
 	public void onEnable() {
 		
 		//Load the GroupManager Plugins
-		Plugin p = this.getServer().getPluginManager().getPlugin("GroupManager");
+		Plugin p = this.getServer().getPluginManager().getPlugin("Permissions");
         if (p != null) {
             if (!p.isEnabled()) {
                 this.getServer().getPluginManager().enablePlugin(p);
             }
-            GroupManager gm = (GroupManager) p;
+            Permissions gm = (Permissions) p;
             groupManager = gm;
-            gmPermissionCheck = gm.getPermissionHandler();
-            System.out.println("HelpPages: GroupManager found.");
+            gmPermissionCheck = gm.getHandler();
+            System.out.println("HelpPages: Permissions found.");
             checkGroups = true;
           
         } else {
-        	System.out.println("HelpPages: GroupManager not found.");
+        	System.out.println("HelpPages: Permissions not found.");
         	checkGroups = false;
         	
         }
@@ -88,7 +87,7 @@ public class HelpPages extends JavaPlugin {
 						Iterator<String> g = HelpFile.helpIndexAccess.get(args[0].toLowerCase()).iterator();
 						while(  g.hasNext() ) { 
 							String nextGroup = g.next(); 
-							if (gmPermissionCheck.inGroup(player.getName(), nextGroup)) { 
+							if (gmPermissionCheck.inGroup(player.getWorld().getName(), player.getName(), nextGroup)) { 
 								hasAccess = true; 
 							} 
 						}
@@ -127,7 +126,7 @@ public class HelpPages extends JavaPlugin {
 						Iterator<String> g = HelpFile.helpIndexAccess.get(args[0].toLowerCase()).iterator();
 						while(  g.hasNext() ) { 
 							String nextGroup = g.next(); 
-							if (gmPermissionCheck.inGroup(player.getName(), nextGroup)) { 
+							if (gmPermissionCheck.inGroup(player.getWorld().getName(), player.getName(), nextGroup)) { 
 								hasAccess = true; 
 							} 
 						}
